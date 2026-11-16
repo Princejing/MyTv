@@ -163,8 +163,7 @@ object SP {
 
     /** 直播源 url */
     var iptvSourceUrl: String
-        get() = (sp.getString(KEY.IPTV_SOURCE_URL.name, "")
-            ?: "").ifBlank { Constants.IPTV_SOURCE_URL }
+        get() = sp.getString(KEY.IPTV_SOURCE_URL.name, "")?.trim() ?: ""
         set(value) = sp.edit().putString(KEY.IPTV_SOURCE_URL.name, value).apply()
 
     /** 直播源缓存时间（毫秒） */
@@ -211,7 +210,7 @@ object SP {
 
     /** 节目单 xml url */
     var epgXmlUrl: String
-        get() = (sp.getString(KEY.EPG_XML_URL.name, "") ?: "").ifBlank { Constants.EPG_XML_URL }
+        get() = sp.getString(KEY.EPG_XML_URL.name, "")?.trim() ?: ""
         set(value) = sp.edit().putString(KEY.EPG_XML_URL.name, value).apply()
 
     /** 节目单刷新时间阈值（小时） */

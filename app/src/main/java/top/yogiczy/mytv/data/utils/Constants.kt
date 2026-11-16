@@ -10,24 +10,9 @@ object Constants {
     const val APP_TITLE = "我的电视"
 
     /**
-     * 应用 代码仓库
-     */
-    const val APP_REPO = "https://github.com/yaoxieyoulei/mytv-android"
-
-    /**
-     * IPTV源地址
-     */
-    const val IPTV_SOURCE_URL = "http://1.2.3.4/live.m3u"
-
-    /**
      * IPTV源缓存时间（毫秒）
      */
     const val IPTV_SOURCE_CACHE_TIME = 1000 * 60 * 60 * 24L // 24小时
-
-    /**
-     * 节目单XML地址
-     */
-    const val EPG_XML_URL = "http://epg.51zmt.top:8000/e.xml.gz"
 
     /**
      * 节目单刷新时间阈值（小时）

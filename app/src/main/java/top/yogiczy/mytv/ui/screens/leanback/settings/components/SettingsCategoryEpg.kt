@@ -33,7 +33,6 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import top.yogiczy.mytv.data.repositories.epg.EpgRepository
-import top.yogiczy.mytv.data.utils.Constants
 import top.yogiczy.mytv.ui.screens.leanback.components.LeanbackQrcodeDialog
 import top.yogiczy.mytv.ui.screens.leanback.settings.LeanbackSettingsViewModel
 import top.yogiczy.mytv.ui.screens.leanback.toast.LeanbackToastState
@@ -88,9 +87,8 @@ fun LeanbackSettingsCategoryEpg(
 
             LeanbackSettingsCategoryListItem(
                 headlineContent = "自定义节目单",
-                supportingContent = if (settingsViewModel.epgXmlUrl != Constants.EPG_XML_URL)
-                    settingsViewModel.epgXmlUrl else null,
-                trailingContent = if (settingsViewModel.epgXmlUrl != Constants.EPG_XML_URL) "已启用" else "未启用",
+                supportingContent = settingsViewModel.epgXmlUrl.takeIf { it.isNotBlank() },
+                trailingContent = if (settingsViewModel.epgXmlUrl.isNotBlank()) "已启用" else "未设置",
                 onSelected = { showDialog = true },
                 remoteConfig = true,
             )
@@ -99,9 +97,9 @@ fun LeanbackSettingsCategoryEpg(
                 showDialogProvider = { showDialog },
                 onDismissRequest = { showDialog = false },
                 epgXmlUrlHistoryProvider = {
-                    settingsViewModel.epgXmlUrlHistoryList.filter {
-                        it != Constants.EPG_XML_URL
-                    }.toImmutableList()
+                    settingsViewModel.epgXmlUrlHistoryList
+                        .filter { it.isNotBlank() }
+                        .toImmutableList()
                 },
                 currentEpgXmlUrlProvider = { settingsViewModel.epgXmlUrl },
                 onSelected = {
@@ -136,11 +134,11 @@ private fun LeanbackSettingsEpgSourceHistoryDialog(
     showDialogProvider: () -> Boolean = { false },
     onDismissRequest: () -> Unit = {},
     epgXmlUrlHistoryProvider: () -> ImmutableList<String> = { persistentListOf() },
-    currentEpgXmlUrlProvider: () -> String = { Constants.EPG_XML_URL },
+    currentEpgXmlUrlProvider: () -> String = { "" },
     onSelected: (String) -> Unit = {},
     onDeleted: (String) -> Unit = {},
 ) {
-    val epgXmlUrlHistory = listOf(Constants.EPG_XML_URL) + epgXmlUrlHistoryProvider()
+    val epgXmlUrlHistory = epgXmlUrlHistoryProvider()
     val currentEpgXmlUrl = currentEpgXmlUrlProvider()
 
     if (showDialogProvider()) {
@@ -189,7 +187,7 @@ private fun LeanbackSettingsEpgSourceHistoryDialog(
                             onClick = { },
                             headlineContent = {
                                 androidx.tv.material3.Text(
-                                    text = if (url == Constants.EPG_XML_URL) "默认节目单" else url,
+                                    text = url,
                                     modifier = Modifier.fillMaxWidth(),
                                     maxLines = if (isFocused) Int.MAX_VALUE else 2,
                                 )

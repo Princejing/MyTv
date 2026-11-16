@@ -2,10 +2,6 @@
     <h1>我的电视</h1>
 <div align="center">
 
-![GitHub repo size](https://img.shields.io/github/repo-size/yaoxieyoulei/mytv-android)
-![GitHub Repo stars](https://img.shields.io/github/stars/yaoxieyoulei/mytv-android)
-![GitHub all releases](https://img.shields.io/github/downloads/yaoxieyoulei/mytv-android/total)
-
 </div>
     <p>使用Android原生开发的视频播放软件</p>
 </div>
@@ -83,9 +79,7 @@
 
 ## 说明
 
-- 主要解决 [my_tv](https://github.com/yaoxieyoulei/my_tv)（flutter）在低端设备上播放（4k）视频卡顿掉帧
 - 仅支持Android5及以上
-- 网络环境必须支持IPV6（默认订阅源）
 - 只在自家电视上测过，其他电视稳定性未知
 
 ## 功能
@@ -113,7 +107,6 @@
 
 
 ## 致谢
-  https://github.com/yaoxieyoulei/mytv-android
 - [my-tv](https://github.com/lizongying/my-tv)
 - [参考设计稿](https://github.com/lizongying/my-tv/issues/594)
 - [IPV6直播源](https://github.com/zhumeng11/IPTV)

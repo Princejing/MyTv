@@ -108,7 +108,6 @@ object HttpServer : Loggable() {
                 Json.encodeToString(
                     AllSettings(
                         appTitle = Constants.APP_TITLE,
-                        appRepo = Constants.APP_REPO,
                         iptvSourceUrl = SP.iptvSourceUrl,
                         epgXmlUrl = SP.epgXmlUrl,
                         videoPlayerUserAgent = SP.videoPlayerUserAgent,
@@ -202,7 +201,6 @@ object HttpServer : Loggable() {
 @Serializable
 private data class AllSettings(
     val appTitle: String,
-    val appRepo: String,
     val iptvSourceUrl: String,
     val epgXmlUrl: String,
     val videoPlayerUserAgent: String,

@@ -22,7 +22,6 @@
             <template v-if="settings">
                 <div class="p-20px pt-0">
                     <div class="ml-16px text-32px">{{ settings.appTitle }}</div>
-                    <div class="ml-16px text-gray text-14px">{{ settings.appRepo }}</div>
                 </div>
 
                 <template v-if="tabActive === 'config'">
@@ -36,7 +35,7 @@
                             <template #label>
                                 <van-space class="w-full" direction="vertical" size="small">
                                     <span>支持m3u链接与tvbox链接</span>
-                                    <van-field class="!p-0" placeholder="置为空时，将恢复默认"
+                                    <van-field class="!p-0" placeholder="直播源地址（m3u / tvbox 链接）"
                                         v-model="settings.iptvSourceUrl" type="textarea" rows="2"></van-field>
                                 </van-space>
                             </template>
@@ -54,7 +53,7 @@
                             <template #label>
                                 <van-space class="w-full" direction="vertical" size="small">
                                     <span>支持xml、xml.gz格式</span>
-                                    <van-field class="!p-0" placeholder="置为空时，将恢复默认"
+                                    <van-field class="!p-0" placeholder="节目单地址（xml / xml.gz）"
                                         v-model="settings.epgXmlUrl" type="textarea" rows="2"></van-field>
                                 </van-space>
                             </template>
