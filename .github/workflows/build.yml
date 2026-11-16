@@ -30,9 +30,15 @@ jobs:
       - name: 生成 Debug APK（编译校验）
         run: chmod +x ./gradlew && ./gradlew assembleDebug --stacktrace
 
+      - name: 整理 APK
+        run: |
+          mkdir -p dist
+          cp tv/build/outputs/apk/debug/*.apk dist/
+          cp mobile/build/outputs/apk/debug/*.apk dist/
+
       - name: 上传 APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: "**/build/outputs/apk/debug/*.apk"
+          path: dist/*.apk
           if-no-files-found: warn
