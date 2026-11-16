@@ -79,7 +79,7 @@ fun ClassicChannelItemList(
     val channelList = channelListProvider()
     val initialChannel = initialChannelProvider()
     val itemFocusRequesterList =
-        remember(channelList) { List(channelList.size) { FocusRequester() } }
+        remember(channelList.size) { List(channelList.size) { FocusRequester() } }
 
     var hasFocused by rememberSaveable { mutableStateOf(!channelList.contains(initialChannel)) }
     var focusedChannel by remember(channelList) {
@@ -135,7 +135,9 @@ fun ClassicChannelItemList(
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        itemsIndexed(channelList, key = { _, channel -> channel.hashCode() }) { index, channel ->
+        itemsIndexed(
+            channelList,
+            key = { _, channel -> channel.name + "|" + channel.urlList.firstOrNull().orEmpty() }) { index, channel ->
             val isSelected by remember { derivedStateOf { channel == focusedChannel } }
             val initialFocused by remember {
                 derivedStateOf { !hasFocused && channel == initialChannel }

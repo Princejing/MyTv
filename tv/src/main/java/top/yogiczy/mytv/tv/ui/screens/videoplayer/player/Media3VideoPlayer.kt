@@ -22,7 +22,6 @@ import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.rtsp.RtspMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import androidx.media3.exoplayer.util.EventLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -78,14 +77,12 @@ class Media3VideoPlayer(
 
         videoPlayer.removeListener(playerListener)
         videoPlayer.removeAnalyticsListener(metadataListener)
-        videoPlayer.removeAnalyticsListener(eventLogger)
         videoPlayer.release()
 
         videoPlayer = getPlayer()
 
         videoPlayer.addListener(playerListener)
         videoPlayer.addAnalyticsListener(metadataListener)
-        videoPlayer.addAnalyticsListener(eventLogger)
 
         surfaceView?.let { setVideoSurfaceView(it) }
         textureView?.let { setVideoTextureView(it) }
@@ -274,19 +271,15 @@ class Media3VideoPlayer(
         }
     }
 
-    private val eventLogger = EventLogger()
-
     override fun initialize() {
         super.initialize()
         videoPlayer.addListener(playerListener)
         videoPlayer.addAnalyticsListener(metadataListener)
-        videoPlayer.addAnalyticsListener(eventLogger)
     }
 
     override fun release() {
         videoPlayer.removeListener(playerListener)
         videoPlayer.removeAnalyticsListener(metadataListener)
-        videoPlayer.removeAnalyticsListener(eventLogger)
         videoPlayer.release()
         super.release()
     }

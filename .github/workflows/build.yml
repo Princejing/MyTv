@@ -27,18 +27,28 @@ jobs:
           yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
           "$SDKMANAGER" "platform-tools" "platforms;android-35" "build-tools;35.0.0" "build-tools;34.0.0"
 
-      - name: 生成 Debug APK（编译校验）
-        run: chmod +x ./gradlew && ./gradlew assembleDebug --stacktrace
+      - name: 生成签名证书
+        run: |
+          keytool -genkeypair -v -keystore keystore.jks -alias mytv -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass mytv123456 -keypass mytv123456 -dname "CN=MyTv, OU=MyTv, O=MyTv, L=CN, ST=CN, C=CN"
+
+      - name: 构建 Release APK
+        run: chmod +x ./gradlew && ./gradlew assembleRelease --stacktrace
+        env:
+          KEYSTORE: ${{ github.workspace }}/keystore.jks
+          KEYSTORE_PASSWORD: mytv123456
+          KEY_ALIAS: mytv
+          KEY_PASSWORD: mytv123456
 
       - name: 整理 APK
         run: |
           mkdir -p dist
-          cp tv/build/outputs/apk/debug/*.apk dist/
-          cp mobile/build/outputs/apk/debug/*.apk dist/
+          cp tv/build/outputs/apk/release/*.apk dist/
+          cp mobile/build/outputs/apk/release/*.apk dist/
 
       - name: 上传 APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug
+          name: app-release
           path: dist/*.apk
           if-no-files-found: warn

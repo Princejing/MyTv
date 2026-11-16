@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.xmlpull.v1.XmlPullParser
 import top.yogiczy.mytv.core.data.entities.epg.Epg
@@ -14,6 +13,7 @@ import top.yogiczy.mytv.core.data.entities.epg.EpgProgramme
 import top.yogiczy.mytv.core.data.entities.epg.EpgProgrammeList
 import top.yogiczy.mytv.core.data.entities.epgsource.EpgSource
 import top.yogiczy.mytv.core.data.network.await
+import top.yogiczy.mytv.core.data.network.sharedHttpClient
 import top.yogiczy.mytv.core.data.repositories.FileCacheRepository
 import top.yogiczy.mytv.core.data.repositories.epg.fetcher.EpgFetcher
 import top.yogiczy.mytv.core.data.utils.Logger
@@ -142,11 +142,10 @@ private class EpgXmlRepository(
     private suspend fun fetchXml(): String {
         log.i("获取节目单xml: $url")
 
-        val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
 
         try {
-            val response = client.newCall(request).await()
+            val response = sharedHttpClient.newCall(request).await()
 
             if (!response.isSuccessful) throw Exception("${response.code}: ${response.message}")
 

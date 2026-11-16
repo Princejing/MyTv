@@ -39,6 +39,8 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.value = MainUiState.Loading()
             refreshChannel()
+            // 延后加载节目单，避免与首帧渲染、播放器初始化抢资源
+            delay(1500)
             refreshEpg()
         }
     }

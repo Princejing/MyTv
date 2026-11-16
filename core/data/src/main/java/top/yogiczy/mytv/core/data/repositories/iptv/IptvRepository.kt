@@ -2,11 +2,11 @@ package top.yogiczy.mytv.core.data.repositories.iptv
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import top.yogiczy.mytv.core.data.entities.channel.ChannelGroupList
 import top.yogiczy.mytv.core.data.entities.iptvsource.IptvSource
 import top.yogiczy.mytv.core.data.network.await
+import top.yogiczy.mytv.core.data.network.sharedHttpClient
 import top.yogiczy.mytv.core.data.repositories.FileCacheRepository
 import top.yogiczy.mytv.core.data.repositories.iptv.parser.IptvParser
 import top.yogiczy.mytv.core.data.utils.Logger
@@ -29,11 +29,10 @@ class IptvRepository(
     private suspend fun fetchSource(sourceUrl: String): String {
         log.d("获取远程直播源: $source")
 
-        val client = OkHttpClient()
         val request = Request.Builder().url(sourceUrl).build()
 
         try {
-            val response = client.newCall(request).await()
+            val response = sharedHttpClient.newCall(request).await()
 
             if (!response.isSuccessful) throw Exception("${response.code}: ${response.message}")
 
@@ -57,7 +56,7 @@ class IptvRepository(
 
             val parser = IptvParser.instances.first { it.isSupport(source.url, sourceData) }
             val startTime = System.currentTimeMillis()
-            val groupList = parser.parse(sourceData)
+            val groupList = withContext(Dispatchers.Default) { parser.parse(sourceData) }
             log.i(
                 listOf(
                     "解析直播源（${source.name}）完成：${groupList.size}个分组",
