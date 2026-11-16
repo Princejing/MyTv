@@ -104,3 +104,11 @@
 ## 声明
 
 此项目（我的电视）是个人为了兴趣而开发, 仅用于学习和测试。 所用API皆从官方网站收集, 不提供任何破解内容。
+
+
+## 致谢
+- [my-tv](https://github.com/lizongying/my-tv)
+- [参考设计稿](https://github.com/lizongying/my-tv/issues/594)
+- [IPV6直播源](https://github.com/zhumeng11/IPTV)
+- [live](https://github.com/fanmingming/live)
+- 等等
