@@ -230,7 +230,7 @@ class Media3VideoPlayer(
                 format.sampleMimeType == androidx.media3.common.MimeTypes.VIDEO_DOLBY_VISION -> "Dolby Vision"
                 colorInfo?.colorTransfer == C.COLOR_TRANSFER_ST2084 -> "HDR10"
                 colorInfo?.colorTransfer == C.COLOR_TRANSFER_HLG -> "HLG"
-                colorInfo?.colorStandard == C.COLOR_STANDARD_BT2020 -> "BT2020"
+                colorInfo?.colorSpace == C.COLOR_SPACE_BT2020 -> "BT2020"
                 else -> ""
             }
             metadata = metadata.copy(
