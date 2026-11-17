@@ -181,6 +181,10 @@ abstract class VideoPlayer(
         val videoHeight: Int = 0,
         /** 视频颜色 */
         val videoColor: String = "",
+        /** 是否 HDR */
+        val videoIsHdr: Boolean = false,
+        /** HDR 类型，如 HDR10 / HLG / Dolby Vision，空串表示非 HDR */
+        val videoHdrType: String = "",
         /** 视频帧率 */
         val videoFrameRate: Float = 0f,
         /** 视频比特率 */

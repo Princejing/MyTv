@@ -1,5 +1,9 @@
 package top.yogiczy.mytv.tv.ui.screens.videoplayer
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.os.Build
+import android.util.Log
 import android.view.SurfaceView
 import android.view.TextureView
 import androidx.compose.foundation.background
@@ -9,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +40,28 @@ fun VideoPlayerScreen(
     showMetadataProvider: () -> Boolean = { false },
 ) {
     val context = LocalContext.current
+
+    val activity = context as? Activity
+    val isHdr = state.metadata.videoIsHdr
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && activity != null) {
+        DisposableEffect(isHdr) {
+            activity.window.setColorMode(
+                if (isHdr) ActivityInfo.COLOR_MODE_HDR else ActivityInfo.COLOR_MODE_DEFAULT
+            )
+            Log.i(
+                "MyTvHDR",
+                "window colorMode=${if (isHdr) "HDR" else "DEFAULT"} (${state.metadata.videoHdrType})"
+            )
+            onDispose { }
+        }
+        LaunchedEffect(Unit) {
+            val display = activity.windowManager.defaultDisplay
+            Log.i(
+                "MyTvHDR",
+                "display HDR types=${display.hdrCapabilities?.supportedHdrTypes?.joinToString() ?: "unknown"}"
+            )
+        }
+    }
 
     Box(
         modifier = modifier

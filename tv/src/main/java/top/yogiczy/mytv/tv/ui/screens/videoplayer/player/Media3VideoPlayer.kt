@@ -225,11 +225,21 @@ class Media3VideoPlayer(
             format: Format,
             decoderReuseEvaluation: DecoderReuseEvaluation?,
         ) {
+            val colorInfo = format.colorInfo
+            val hdrType = when {
+                format.sampleMimeType == androidx.media3.common.MimeTypes.VIDEO_DOLBY_VISION -> "Dolby Vision"
+                colorInfo?.colorTransfer == C.COLOR_TRANSFER_ST2084 -> "HDR10"
+                colorInfo?.colorTransfer == C.COLOR_TRANSFER_HLG -> "HLG"
+                colorInfo?.colorStandard == C.COLOR_STANDARD_BT2020 -> "BT2020"
+                else -> ""
+            }
             metadata = metadata.copy(
                 videoMimeType = format.sampleMimeType ?: "",
                 videoWidth = format.width,
                 videoHeight = format.height,
                 videoColor = format.colorInfo?.toLogString() ?: "",
+                videoIsHdr = hdrType.isNotEmpty(),
+                videoHdrType = hdrType,
                 // TODO 帧率、比特率目前是从tag中获取，有的返回空，后续需要实时计算
                 videoFrameRate = format.frameRate,
                 videoBitrate = format.bitrate,
